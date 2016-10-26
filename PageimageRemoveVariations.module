@@ -1,0 +1,85 @@
+<?php
+
+/**
+ * ProcessWire module that removes images-cache sitewide
+ *
+ *
+ * ProcessWire 2.x
+ * Copyright (C) 2010 by Ryan Cramer
+ * Licensed under GNU/GPL v2, see LICENSE.TXT
+ *
+ * http://www.processwire.com
+ *
+**/
+
+
+class PageimageRemoveVariations extends WireData implements Module, ConfigurableModule {
+
+    /**
+     * getModuleInfo is a module required by all modules to tell ProcessWire about them
+     *
+     * @return array
+     *
+     */
+    public static function getModuleInfo() {
+        return array(
+            'title'    => 'Pageimage Remove Variations',
+            'version'  => '0.0.4',
+            'summary'  => 'This module let you clear the images cache sitewide, but big WARNING: it also removes ImageVariations from RTE-Fields!',
+            'href'     => '',
+            'author'   => 'horst & excludelist by tpr',
+            'singular' => false,
+            'autoload' => false
+            );
+    }
+
+
+    /**
+     * Default settings used by this module
+     *
+     * @return array
+     */
+    static public function getDefaultData() {
+        return array(
+            'do_only_test_run' => '1'
+            );
+    }
+
+
+    /**
+     * Populate default settings
+     *
+     */
+    public function __construct() {
+        foreach(self::getDefaultData() as $key => $value) {
+            $this->$key = $value;
+        }
+    }
+
+
+    /**
+     * Initialize the module and setup hooks
+     *
+     */
+    public function init() {
+    }
+
+
+    public function __destruct() {
+    }
+
+
+
+    /**
+     * Build a form allowing configuration of this Module
+     *
+     */
+    static public function getModuleConfigInputfields(array $data) {
+        $data = array_merge(self::getDefaultData(), $data);
+        require_once(dirname(__FILE__) . '/PageimageRemoveVariationsConfig.php');
+        $c = new PageimageRemoveVariationsConfig();
+        return $c->getConfig($data);
+    }
+
+}
+
